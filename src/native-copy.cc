@@ -105,8 +105,73 @@ Value Copy(const CallbackInfo& info) {
 	}
 }
 
+void SetTrueRecursive(const Env& env, Reference<Object>& targetReference, std::vector<std::string>& fragments) {
+    std::string currentKey = fragments[0];
+    Object target = targetReference.Value();
+    if (fragments.size() == 1) {
+        if (!target.Has(fragments[0])) {
+            target.Set(currentKey.c_str(), Boolean::New(env, true));
+        }
+        return;
+    } else {
+        if (!target.Has(currentKey)) target.Set(currentKey, Object::New(env));
+        Reference<Object> setNext = Reference<Object>::New(target.Get(currentKey).As<Object>());
+        fragments.erase(fragments.begin());
+        return SetTrueRecursive(env, setNext, fragments);
+    }
+}
+
+// https://thispointer.com/how-to-split-a-string-in-c/
+std::vector<std::string> split(std::string str, char delimeter)
+{
+    std::stringstream ss(str);
+    std::string item;
+    std::vector<std::string> splittedStrings;
+    while (std::getline(ss, item, delimeter))
+    {
+        splittedStrings.push_back(item);
+    }
+    return splittedStrings;
+}
+
+Object ConvertRule(const CallbackInfo& info) {
+    Env env = info.Env();
+
+    if (info.Length() < 1) {
+        TypeError::New(env, "You need to pass at least 1 arguments").ThrowAsJavaScriptException();
+    }
+
+    auto convertValue = info[0];
+
+    if (convertValue.IsArray()) {
+        auto array = convertValue.As<Array>();
+
+        Object returnObject = Object::New(env);
+        Reference<Object> reference = Reference<Object>::New(returnObject);
+
+        for (int i = 0; i < array.Length(); i++) {
+            Value pathValue = array[i];
+            if (!pathValue.IsString()) continue;
+            std::string delimiter = ".";
+            std::string path = pathValue.ToString().Utf8Value();
+            std::vector<std::string> pathFragments = split(path, '.');
+
+            SetTrueRecursive(env, reference, pathFragments);
+            std::vector<std::string>().swap(pathFragments);
+        }
+
+        return returnObject;
+    } else if (convertValue.IsObject()) {
+        return convertValue.ToObject();
+    }
+
+    TypeError::New(env, "Argument is not an array and also not an object.").ThrowAsJavaScriptException();
+    return Object::New(env);
+}
+
 Object Init(Env env, Object exports) {
   exports.Set(String::New(env, "NativeCopy"), Function::New(env, Copy));
+  exports.Set(String::New(env, "ConvertRule"), Function::New(env, ConvertRule));
   return exports;
 }
 

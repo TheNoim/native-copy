@@ -7,6 +7,9 @@
 
 #include <napi.h>
 #include <tuple>
+#include <iostream>
+#include <string>
+#include <sstream>
 
 using namespace Napi;
 

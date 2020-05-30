@@ -1,4 +1,5 @@
 const copy = require('bindings')('NativeCopy').NativeCopy;
+const convert = require('bindings')('NativeCopy').ConvertRule;
 
 const testObject = {
     copy: 1,
@@ -47,3 +48,9 @@ const copied = copy([testObject], rules)
 
 console.log(copied);
 console.log(JSON.stringify(copied));
+
+console.log(convert([
+    "test.hello.ok.test",
+    "test2.hello.what",
+    "ok",
+]));

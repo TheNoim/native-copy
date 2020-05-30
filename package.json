@@ -17,7 +17,8 @@
   ],
   "scripts": {
     "install": "cmake-js compile",
-    "prepublish": "cmake-js clean && tsc"
+    "prepublish": "cmake-js clean && tsc",
+    "test": "cmake-js compile && node test/test.js"
   },
   "dependencies": {
     "bindings": "^1.5.0",
