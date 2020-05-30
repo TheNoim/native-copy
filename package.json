@@ -1,0 +1,22 @@
+{
+  "name": "native-copy",
+  "version": "1.0.0",
+  "description": "Copies all values from on object to another which are defined to copy.",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "author": "Nils Bergmann <nilsbergmann@noim.io>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "install": "cmake-js compile"
+  },
+  "dependencies": {
+    "bindings": "^1.5.0",
+    "cmake-js": "^6.1.0",
+    "node-addon-api": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.6",
+    "typescript": "^3.9.3"
+  }
+}
