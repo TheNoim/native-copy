@@ -6,9 +6,18 @@
   "types": "build/index.d.ts",
   "author": "Nils Bergmann <nilsbergmann@noim.io>",
   "license": "MIT",
-  "private": false,
+  "files": [
+    "src/native-copy.cc",
+    "src/native-copy.h",
+    "build/index.d.ts",
+    "build/index.js",
+    "yarn.lock",
+    "tsconfig.json",
+    "CMakeLists.txt"
+  ],
   "scripts": {
-    "install": "cmake-js compile"
+    "install": "cmake-js compile",
+    "prepublish": "cmake-js clean && tsc"
   },
   "dependencies": {
     "bindings": "^1.5.0",
