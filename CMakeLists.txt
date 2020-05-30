@@ -39,7 +39,7 @@ project (NativeCopy)
 
 parse_cmakejs_properties()
 
-cmake_minimum_required(VERSION 3.16.5)
+cmake_minimum_required(VERSION 3.15.5)
 
 include_directories(${CMAKE_JS_INC})
 
