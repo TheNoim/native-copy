@@ -105,9 +105,17 @@ Value Copy(const CallbackInfo& info) {
 	}
 }
 
+// https://stackoverflow.com/questions/44973435/stdptr-fun-replacement-for-c17
+static inline std::string &ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int c) {return !std::isspace(c);}));
+    return s;
+}
+
 void SetTrueRecursive(const Env& env, Reference<Object>& targetReference, std::vector<std::string>& fragments) {
     std::string currentKey = fragments[0];
     Object target = targetReference.Value();
+    currentKey = ltrim(currentKey);
+    if (currentKey.empty()) return;
     if (fragments.size() == 1) {
         if (!target.Has(fragments[0])) {
             target.Set(currentKey.c_str(), Boolean::New(env, true));
@@ -155,6 +163,8 @@ Object ConvertRule(const CallbackInfo& info) {
             std::string delimiter = ".";
             std::string path = pathValue.ToString().Utf8Value();
             std::vector<std::string> pathFragments = split(path, '.');
+
+            if (pathFragments.empty()) continue;
 
             SetTrueRecursive(env, reference, pathFragments);
             std::vector<std::string>().swap(pathFragments);

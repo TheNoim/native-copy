@@ -53,4 +53,7 @@ console.log(convert([
     "test.hello.ok.test",
     "test2.hello.what",
     "ok",
+    "",
+    "....",
+    ". . ... . . "
 ]));
