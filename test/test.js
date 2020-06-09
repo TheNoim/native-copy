@@ -9,6 +9,7 @@ const testObject = {
             copyPlz: 55555
         }
     ],
+    test: null,
     arrayTest2: [
         1,
         2,
@@ -49,11 +50,15 @@ const copied = copy([testObject], rules)
 console.log(copied);
 console.log(JSON.stringify(copied));
 
-console.log(convert([
+const testArray = [
     "test.hello.ok.test",
     "test2.hello.what",
     "ok",
     "",
     "....",
     ". . ... . . "
-]));
+]
+
+console.log(convert(testArray));
+
+console.log(copy([testObject], testArray))

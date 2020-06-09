@@ -54,7 +54,11 @@ Object CopyObject(const Env& env, const Value& target, const Value& rules) {
                 }
                 returnObject.Set(property, tempArray);
             } else {
-                returnObject.Set(property, CopyObject(env, targetObject.Get(property), rulesObject.Get(property)));
+                if (targetObject.Get(property).IsNull() || targetObject.Get(property).IsUndefined() || targetObject.Get(property).IsSymbol()) {
+                    returnObject.Set(property, targetObject.Get(property));
+                } else {
+                    returnObject.Set(property, CopyObject(env, targetObject.Get(property), rulesObject.Get(property)));
+                }
             }
         } else if (rulesObject.Get(property).IsArray()) {
             auto [toSet, skip] = processArray(env, rulesObject.Get(property).As<Array>(), targetObject.Get(property));
