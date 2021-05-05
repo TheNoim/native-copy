@@ -1,6 +1,6 @@
 {
   "name": "native-copy",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Copies all values from on object to another which are defined to copy.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
